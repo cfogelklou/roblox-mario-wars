@@ -45,7 +45,9 @@ instructionsText.Name = "Text"
 instructionsText.Size = UDim2.new(1, -20, 0, 40)
 instructionsText.Position = UDim2.new(0, 10, 0, 35)
 instructionsText.BackgroundTransparency = 1
-instructionsText.Text = "Jump on other players' heads to score!\nFirst to " .. GameConfig.SCORE_TO_WIN .. " points wins!"
+instructionsText.Text = "Jump on other players' heads to score!\nFirst to "
+	.. GameConfig.SCORE_TO_WIN
+	.. " points wins!"
 instructionsText.TextColor3 = Color3.fromRGB(255, 255, 255)
 instructionsText.TextSize = 16
 instructionsText.Font = Enum.Font.Gotham

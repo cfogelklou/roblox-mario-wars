@@ -26,7 +26,7 @@ local BOT_NAMES = {
 	"BotWaluigi",
 	"BotDaisy",
 	"BotBowser",
-	"BotRosalina"
+	"BotRosalina",
 }
 
 -- Initialize the bot manager
@@ -160,7 +160,7 @@ function BotManager:CreateBot()
 		Name = botName,
 		Character = botCharacter,
 		UserId = -self.botCounter, -- Negative IDs for bots
-		IsBot = true
+		IsBot = true,
 	}
 
 	-- Setup leaderboard for bot (need to integrate with GameManager)
@@ -174,7 +174,7 @@ function BotManager:CreateBot()
 	score.Parent = leaderstats
 
 	-- Randomly select bot difficulty
-	local difficulties = {"EASY", "MEDIUM", "HARD"}
+	local difficulties = { "EASY", "MEDIUM", "HARD" }
 	local difficulty = difficulties[math.random(1, #difficulties)]
 
 	-- Create bot controller
@@ -185,7 +185,7 @@ function BotManager:CreateBot()
 	self.activeBots[botPlayerData] = {
 		character = botCharacter,
 		controller = controller,
-		difficulty = difficulty
+		difficulty = difficulty,
 	}
 
 	print(string.format("[BotManager] Bot '%s' created with %s difficulty", botName, difficulty))

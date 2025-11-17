@@ -96,10 +96,10 @@ local function buildArena()
 
 	-- Walls to prevent falling off
 	local wallPositions = {
-		{pos = Vector3.new(0, 15, 105), size = Vector3.new(210, 30, 4)},  -- North
-		{pos = Vector3.new(0, 15, -105), size = Vector3.new(210, 30, 4)}, -- South
-		{pos = Vector3.new(105, 15, 0), size = Vector3.new(4, 30, 210)},  -- East
-		{pos = Vector3.new(-105, 15, 0), size = Vector3.new(4, 30, 210)}, -- West
+		{ pos = Vector3.new(0, 15, 105), size = Vector3.new(210, 30, 4) }, -- North
+		{ pos = Vector3.new(0, 15, -105), size = Vector3.new(210, 30, 4) }, -- South
+		{ pos = Vector3.new(105, 15, 0), size = Vector3.new(4, 30, 210) }, -- East
+		{ pos = Vector3.new(-105, 15, 0), size = Vector3.new(4, 30, 210) }, -- West
 	}
 
 	for i, wallData in ipairs(wallPositions) do
