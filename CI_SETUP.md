@@ -126,7 +126,30 @@ The CI pipeline runs automatically on:
 
 ## Local Development Workflow
 
-### Before Committing
+### Quick Test Script (Recommended)
+
+**Run all CI checks locally before committing:**
+
+```bash
+./scripts/test.sh
+```
+
+This script runs all the same checks that GitHub Actions runs:
+- ✅ Code formatting verification (StyLua)
+- ✅ Linting (Selene)
+- ✅ Project structure validation (Rojo)
+- ✅ Build verification
+
+**The script will:**
+- Show colored output for each check
+- Report exactly which tests failed
+- Suggest fixes for common issues
+- Exit with code 0 if all tests pass, 1 if any fail
+
+### Manual Testing (Alternative)
+
+If you prefer to run checks individually:
+
 ```bash
 # Format your code
 stylua src tests
@@ -134,11 +157,15 @@ stylua src tests
 # Check for linting issues
 selene src tests
 
+# Verify the project structure
+rojo sourcemap default.project.json --output sourcemap.json
+
 # Verify the project builds
 rojo build default.project.json --output MarioWars.rbxl
 ```
 
 ### Pre-commit Checklist
+- [ ] `./scripts/test.sh` passes (or all individual checks pass)
 - [ ] Code is formatted (`stylua src tests`)
 - [ ] No linting errors (`selene src tests`)
 - [ ] Project builds successfully

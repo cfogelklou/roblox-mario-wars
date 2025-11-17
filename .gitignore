@@ -6,6 +6,7 @@
 
 # Rojo
 *.project.json.lock
+sourcemap.json
 
 # OS
 .DS_Store

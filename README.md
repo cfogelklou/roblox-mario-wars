@@ -78,6 +78,8 @@ roblox-mario-wars/
 ├── .github/
 │   └── workflows/
 │       └── ci.yml                  # GitHub Actions CI/CD pipeline
+├── scripts/
+│   └── test.sh                     # Local CI test script
 ├── src/
 │   ├── ReplicatedStorage/
 │   │   ├── GameConfig.lua          # Game settings and constants
@@ -102,6 +104,7 @@ roblox-mario-wars/
 ├── aftman.toml                     # Tool version management
 ├── default.project.json            # Rojo project configuration
 ├── CI_SETUP.md                     # CI/CD documentation
+├── CLAUDE.md                       # Instructions for AI agents
 └── README.md                       # This file
 ```
 
@@ -124,6 +127,10 @@ This project uses modern tooling for code quality and automated testing:
 # Install all project tools
 aftman install
 
+# Run all CI checks locally (recommended before committing)
+./scripts/test.sh
+
+# Or run individual commands:
 # Format code
 stylua src tests
 
@@ -133,6 +140,8 @@ selene src tests
 # Build the project
 rojo build default.project.json --output MarioWars.rbxl
 ```
+
+**Important:** Always run `./scripts/test.sh` before committing to ensure your changes will pass CI.
 
 For detailed information about the CI/CD setup, testing, and development workflow, see [CI_SETUP.md](CI_SETUP.md).
 
