@@ -1,9 +1,6 @@
 -- SpawnManager.lua
 -- Manages multiple spawn locations for players
 
-local Players = game:GetService("Players")
-local ServerStorage = game:GetService("ServerStorage")
-
 local SpawnManager = {}
 SpawnManager.SpawnLocations = {}
 

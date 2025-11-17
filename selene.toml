@@ -1,5 +1,5 @@
 # Selene linter configuration for Roblox
-std = "roblox"
+std = "roblox+testez"
 
 [rules]
 # Enable all recommended rules

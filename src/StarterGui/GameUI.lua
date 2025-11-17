@@ -3,7 +3,6 @@
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local StarterGui = game:GetService("StarterGui")
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
@@ -123,7 +122,7 @@ resetMessage.BackgroundTransparency = 1
 resetMessage.Text = "Game resets in 10 seconds..."
 resetMessage.TextColor3 = Color3.fromRGB(150, 150, 150)
 resetMessage.TextSize = 18
-resetMessage.Font = Enum.Font.GothamItalic
+resetMessage.Font = Enum.Font.Gotham
 resetMessage.TextXAlignment = Enum.TextXAlignment.Center
 resetMessage.Parent = winnerFrame
 

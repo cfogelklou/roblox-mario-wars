@@ -6,7 +6,6 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
 
 local BotController = require(ServerScriptService.BotController)
-local GameConfig = require(ReplicatedStorage.GameConfig)
 
 local BotManager = {}
 
@@ -81,7 +80,7 @@ function BotManager:UpdateBotCount()
 		local botsToAdd = self.MIN_PLAYERS - totalPlayers
 		print(string.format("[BotManager] Adding %d bots to reach minimum of %d players", botsToAdd, self.MIN_PLAYERS))
 
-		for i = 1, botsToAdd do
+		for _ = 1, botsToAdd do
 			self:CreateBot()
 		end
 	elseif totalPlayers > self.MIN_PLAYERS and currentBots > 0 then
@@ -141,13 +140,8 @@ function BotManager:CreateBot()
 
 	print("[BotManager] Creating bot:", botName)
 
-	-- Create a fake player using a Model to represent the bot
 	-- Note: In Roblox, we can't actually create Player instances, so we'll create
 	-- a character with a special flag to identify it as a bot
-	local botPlayer = Players:CreateHumanoidModelFromUserId(1)
-
-	-- Since we can't create real Player objects, we'll use a workaround:
-	-- We'll create the bot character directly and add it to the workspace
 	local botCharacter = self:CreateBotCharacter(botName)
 
 	if not botCharacter then

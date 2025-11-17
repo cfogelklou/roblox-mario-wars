@@ -2,19 +2,14 @@
 -- Handles AI logic for individual bot players
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local PathfindingService = game:GetService("PathfindingService")
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
-
-local GameConfig = require(ReplicatedStorage.GameConfig)
 
 local BotController = {}
 BotController.__index = BotController
 
 -- Bot AI parameters
 local BOT_UPDATE_RATE = 0.1 -- Update AI 10 times per second
-local BOT_MOVE_SPEED = 16 -- Default Roblox walk speed
-local BOT_JUMP_POWER = 50 -- Default Roblox jump power
 local BOT_TARGET_RANGE = 100 -- Maximum distance to consider targets
 local BOT_STOMP_RANGE = 15 -- Distance to attempt stomp
 local BOT_EVASION_RANGE = 20 -- Distance to detect threats above
@@ -85,7 +80,6 @@ function BotController:Update()
 	end
 
 	local humanoid = character.Humanoid
-	local rootPart = character.HumanoidRootPart
 
 	-- Don't update if dead or respawning
 	if humanoid.Health <= 0 then

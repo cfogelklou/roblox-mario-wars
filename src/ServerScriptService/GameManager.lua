@@ -51,7 +51,7 @@ local function checkForWinner()
 
 				-- Reset game after 10 seconds
 				task.wait(10)
-				resetGame()
+				GameManager.ResetGame()
 
 				return true
 			end
@@ -75,7 +75,7 @@ local function checkForWinner()
 
 					-- Reset game after 10 seconds
 					task.wait(10)
-					resetGame()
+					GameManager.ResetGame()
 
 					return true
 				end
@@ -87,7 +87,7 @@ local function checkForWinner()
 end
 
 -- Reset the game
-function resetGame()
+function GameManager.ResetGame()
 	print("Resetting game...")
 	GameManager.GameActive = true
 	GameManager.Winner = nil
