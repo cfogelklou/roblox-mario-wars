@@ -30,48 +30,66 @@ local function checkForHeadStomp()
 		return -- Not falling fast enough
 	end
 
-	-- Check for other players below
+	-- Check for other players and bots below
+	local potentialVictims = {}
+
+	-- Add all human players
 	for _, otherPlayer in pairs(Players:GetPlayers()) do
-		if otherPlayer ~= player then
-			local otherCharacter = otherPlayer.Character
-			if otherCharacter then
-				local otherHumanoid = otherCharacter:FindFirstChild("Humanoid")
-				local otherRootPart = otherCharacter:FindFirstChild("HumanoidRootPart")
-				local otherHead = otherCharacter:FindFirstChild("Head")
+		if otherPlayer ~= player and otherPlayer.Character then
+			table.insert(potentialVictims, {character = otherPlayer.Character, player = otherPlayer})
+		end
+	end
 
-				if otherHumanoid and otherRootPart and otherHead and otherHumanoid.Health > 0 then
-					-- Calculate if we're above their head
-					local myFeet = rootPart.Position.Y - (rootPart.Size.Y / 2)
-					local theirHead = otherHead.Position.Y + (otherHead.Size.Y / 2)
+	-- Add all bot characters from workspace
+	for _, obj in pairs(workspace:GetChildren()) do
+		if obj:IsA("Model") and obj:FindFirstChild("IsBot") and obj ~= character then
+			table.insert(potentialVictims, {character = obj, player = nil})
+		end
+	end
 
-					local horizontalDistance = Vector2.new(
-						rootPart.Position.X - otherRootPart.Position.X,
-						rootPart.Position.Z - otherRootPart.Position.Z
-					).Magnitude
+	-- Check each potential victim
+	for _, victim in ipairs(potentialVictims) do
+		local otherCharacter = victim.character
+		local otherHumanoid = otherCharacter:FindFirstChild("Humanoid")
+		local otherRootPart = otherCharacter:FindFirstChild("HumanoidRootPart")
+		local otherHead = otherCharacter:FindFirstChild("Head")
 
-					-- Check if we're close enough horizontally and above their head
-					if horizontalDistance < 4 and myFeet >= theirHead and myFeet - theirHead < GameConfig.STOMP_HEAD_DISTANCE then
-						local currentTime = tick()
+		if otherHumanoid and otherRootPart and otherHead and otherHumanoid.Health > 0 then
+			-- Calculate if we're above their head
+			local myFeet = rootPart.Position.Y - (rootPart.Size.Y / 2)
+			local theirHead = otherHead.Position.Y + (otherHead.Size.Y / 2)
 
-						-- Prevent multiple stomps too quickly
-						if currentTime - lastStompTime >= STOMP_COOLDOWN then
-							lastStompTime = currentTime
+			local horizontalDistance = Vector2.new(
+				rootPart.Position.X - otherRootPart.Position.X,
+				rootPart.Position.Z - otherRootPart.Position.Z
+			).Magnitude
 
-							-- Apply bounce to this player
-							if humanoid:GetState() ~= Enum.HumanoidStateType.Dead then
-								-- Create upward bounce
-								local currentVelocity = rootPart.AssemblyLinearVelocity
-								rootPart.AssemblyLinearVelocity = Vector3.new(
-									currentVelocity.X,
-									GameConfig.STOMP_BOUNCE_VELOCITY,
-									currentVelocity.Z
-								)
+			-- Check if we're close enough horizontally and above their head
+			if horizontalDistance < 4 and myFeet >= theirHead and myFeet - theirHead < GameConfig.STOMP_HEAD_DISTANCE then
+				local currentTime = tick()
 
-								-- Notify server of the stomp
-								RemoteEvents.HeadStompEvent:FireServer(otherPlayer)
+				-- Prevent multiple stomps too quickly
+				if currentTime - lastStompTime >= STOMP_COOLDOWN then
+					lastStompTime = currentTime
 
-								print("Stomped " .. otherPlayer.Name .. "!")
-							end
+					-- Apply bounce to this player
+					if humanoid:GetState() ~= Enum.HumanoidStateType.Dead then
+						-- Create upward bounce
+						local currentVelocity = rootPart.AssemblyLinearVelocity
+						rootPart.AssemblyLinearVelocity = Vector3.new(
+							currentVelocity.X,
+							GameConfig.STOMP_BOUNCE_VELOCITY,
+							currentVelocity.Z
+						)
+
+						-- Notify server of the stomp
+						if victim.player then
+							-- Human victim
+							RemoteEvents.HeadStompEvent:FireServer(victim.player)
+							print("Stomped " .. victim.player.Name .. "!")
+						else
+							-- Bot victim - server-side detection will handle this
+							print("Stomped bot " .. otherCharacter.Name .. "!")
 						end
 					end
 				end
