@@ -1,0 +1,112 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master, develop, "claude/**" ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  lint-and-typecheck:
+    name: Lint and Type Check
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Aftman
+      uses: ok-nick/setup-aftman@v0.4.2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Install tools
+      run: aftman install
+
+    - name: Check code formatting with StyLua
+      run: |
+        stylua --check src tests
+
+    - name: Run Selene linter
+      run: |
+        selene src tests
+
+    - name: Verify Rojo project builds
+      run: |
+        rojo sourcemap default.project.json --output sourcemap.json
+        echo "✓ Rojo project structure is valid"
+
+  format-check:
+    name: Format Check
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Aftman
+      uses: ok-nick/setup-aftman@v0.4.2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Install StyLua
+      run: aftman install
+
+    - name: Verify code is formatted
+      run: |
+        if ! stylua --check src tests; then
+          echo "❌ Code formatting issues detected!"
+          echo "Run 'stylua src tests' locally to fix formatting"
+          exit 1
+        fi
+        echo "✓ All files are properly formatted"
+
+  build:
+    name: Build Project
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Aftman
+      uses: ok-nick/setup-aftman@v0.4.2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Install Rojo
+      run: aftman install
+
+    - name: Build Roblox place file
+      run: |
+        rojo build default.project.json --output MarioWars.rbxl
+        echo "✓ Successfully built MarioWars.rbxl"
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: roblox-place-file
+        path: MarioWars.rbxl
+        retention-days: 7
+
+  summary:
+    name: CI Summary
+    runs-on: ubuntu-latest
+    needs: [lint-and-typecheck, format-check, build]
+    if: always()
+
+    steps:
+    - name: Check results
+      run: |
+        if [ "${{ needs.lint-and-typecheck.result }}" == "success" ] && \
+           [ "${{ needs.format-check.result }}" == "success" ] && \
+           [ "${{ needs.build.result }}" == "success" ]; then
+          echo "✅ All checks passed!"
+          exit 0
+        else
+          echo "❌ Some checks failed:"
+          echo "  - Lint & Type Check: ${{ needs.lint-and-typecheck.result }}"
+          echo "  - Format Check: ${{ needs.format-check.result }}"
+          echo "  - Build: ${{ needs.build.result }}"
+          exit 1
+        fi

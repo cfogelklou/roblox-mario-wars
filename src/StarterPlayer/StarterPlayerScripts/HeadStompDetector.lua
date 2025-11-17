@@ -15,7 +15,9 @@ local STOMP_COOLDOWN = 0.5 -- Prevent multiple stomps in quick succession
 -- Check if player is above another player's head and moving downward
 local function checkForHeadStomp()
 	local character = player.Character
-	if not character then return end
+	if not character then
+		return
+	end
 
 	local humanoid = character:FindFirstChild("Humanoid")
 	local rootPart = character:FindFirstChild("HumanoidRootPart")
@@ -36,14 +38,14 @@ local function checkForHeadStomp()
 	-- Add all human players
 	for _, otherPlayer in pairs(Players:GetPlayers()) do
 		if otherPlayer ~= player and otherPlayer.Character then
-			table.insert(potentialVictims, {character = otherPlayer.Character, player = otherPlayer})
+			table.insert(potentialVictims, { character = otherPlayer.Character, player = otherPlayer })
 		end
 	end
 
 	-- Add all bot characters from workspace
 	for _, obj in pairs(workspace:GetChildren()) do
 		if obj:IsA("Model") and obj:FindFirstChild("IsBot") and obj ~= character then
-			table.insert(potentialVictims, {character = obj, player = nil})
+			table.insert(potentialVictims, { character = obj, player = nil })
 		end
 	end
 
@@ -76,11 +78,8 @@ local function checkForHeadStomp()
 					if humanoid:GetState() ~= Enum.HumanoidStateType.Dead then
 						-- Create upward bounce
 						local currentVelocity = rootPart.AssemblyLinearVelocity
-						rootPart.AssemblyLinearVelocity = Vector3.new(
-							currentVelocity.X,
-							GameConfig.STOMP_BOUNCE_VELOCITY,
-							currentVelocity.Z
-						)
+						rootPart.AssemblyLinearVelocity =
+							Vector3.new(currentVelocity.X, GameConfig.STOMP_BOUNCE_VELOCITY, currentVelocity.Z)
 
 						-- Notify server of the stomp
 						if victim.player then

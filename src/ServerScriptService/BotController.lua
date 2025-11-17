@@ -2,19 +2,14 @@
 -- Handles AI logic for individual bot players
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local PathfindingService = game:GetService("PathfindingService")
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
-
-local GameConfig = require(ReplicatedStorage.GameConfig)
 
 local BotController = {}
 BotController.__index = BotController
 
 -- Bot AI parameters
 local BOT_UPDATE_RATE = 0.1 -- Update AI 10 times per second
-local BOT_MOVE_SPEED = 16 -- Default Roblox walk speed
-local BOT_JUMP_POWER = 50 -- Default Roblox jump power
 local BOT_TARGET_RANGE = 100 -- Maximum distance to consider targets
 local BOT_STOMP_RANGE = 15 -- Distance to attempt stomp
 local BOT_EVASION_RANGE = 20 -- Distance to detect threats above
@@ -37,7 +32,7 @@ local BOT_DIFFICULTIES = {
 		reactionTime = 0.1,
 		accuracy = 0.9,
 		aggressiveness = 0.9,
-	}
+	},
 }
 
 function BotController.new(botPlayer, difficulty)
@@ -85,7 +80,6 @@ function BotController:Update()
 	end
 
 	local humanoid = character.Humanoid
-	local rootPart = character.HumanoidRootPart
 
 	-- Don't update if dead or respawning
 	if humanoid.Health <= 0 then
@@ -122,14 +116,14 @@ function BotController:GetAllTargets()
 	-- Add human players
 	for _, player in ipairs(Players:GetPlayers()) do
 		if player.Character then
-			table.insert(targets, {character = player.Character, name = player.Name})
+			table.insert(targets, { character = player.Character, name = player.Name })
 		end
 	end
 
 	-- Add bot characters
 	for _, obj in pairs(workspace:GetChildren()) do
 		if obj:IsA("Model") and obj:FindFirstChild("IsBot") and obj ~= self.botPlayer.Character then
-			table.insert(targets, {character = obj, name = obj.Name})
+			table.insert(targets, { character = obj, name = obj.Name })
 		end
 	end
 
@@ -200,18 +194,13 @@ function BotController:ShouldEvade()
 			local otherPosition = otherRoot.Position
 
 			-- Check horizontal distance
-			local horizontalDist = math.sqrt(
-				(otherPosition.X - myPosition.X)^2 +
-				(otherPosition.Z - myPosition.Z)^2
-			)
+			local horizontalDist = math.sqrt((otherPosition.X - myPosition.X) ^ 2 + (otherPosition.Z - myPosition.Z) ^ 2)
 
 			-- Check if they're above us and falling
 			local heightDiff = otherPosition.Y - myHeadTop
 			local otherVelocity = otherRoot.AssemblyLinearVelocity
 
-			if horizontalDist <= BOT_EVASION_RANGE and
-			   heightDiff > 0 and heightDiff <= 20 and
-			   otherVelocity.Y < -10 then
+			if horizontalDist <= BOT_EVASION_RANGE and heightDiff > 0 and heightDiff <= 20 and otherVelocity.Y < -10 then
 				return true
 			end
 		end

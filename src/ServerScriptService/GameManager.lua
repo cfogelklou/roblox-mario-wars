@@ -51,7 +51,7 @@ local function checkForWinner()
 
 				-- Reset game after 10 seconds
 				task.wait(10)
-				resetGame()
+				GameManager.ResetGame()
 
 				return true
 			end
@@ -75,7 +75,7 @@ local function checkForWinner()
 
 					-- Reset game after 10 seconds
 					task.wait(10)
-					resetGame()
+					GameManager.ResetGame()
 
 					return true
 				end
@@ -87,7 +87,7 @@ local function checkForWinner()
 end
 
 -- Reset the game
-function resetGame()
+function GameManager.ResetGame()
 	print("Resetting game...")
 	GameManager.GameActive = true
 	GameManager.Winner = nil
@@ -274,15 +274,15 @@ local function checkServerSideStomps()
 							local victimHeadTop = victimHead.Position.Y + (victimHead.Size.Y / 2)
 
 							local horizontalDist = math.sqrt(
-								(stomperRoot.Position.X - victimRoot.Position.X)^2 +
-								(stomperRoot.Position.Z - victimRoot.Position.Z)^2
+								(stomperRoot.Position.X - victimRoot.Position.X) ^ 2 + (stomperRoot.Position.Z - victimRoot.Position.Z) ^ 2
 							)
 
 							-- Check stomp conditions
-							if horizontalDist < 4 and
-							   stomperFeet >= victimHeadTop and
-							   stomperFeet - victimHeadTop < GameConfig.STOMP_HEAD_DISTANCE then
-
+							if
+								horizontalDist < 4
+								and stomperFeet >= victimHeadTop
+								and stomperFeet - victimHeadTop < GameConfig.STOMP_HEAD_DISTANCE
+							then
 								-- Check cooldown
 								local cooldownKey = tostring(stomperChar) .. "_" .. tostring(victimChar)
 								local currentTime = tick()
@@ -294,11 +294,7 @@ local function checkServerSideStomps()
 									-- Apply bounce to stomper
 									if stomperHumanoid:GetState() ~= Enum.HumanoidStateType.Dead then
 										local currentVel = stomperRoot.AssemblyLinearVelocity
-										stomperRoot.AssemblyLinearVelocity = Vector3.new(
-											currentVel.X,
-											GameConfig.STOMP_BOUNCE_VELOCITY,
-											currentVel.Z
-										)
+										stomperRoot.AssemblyLinearVelocity = Vector3.new(currentVel.X, GameConfig.STOMP_BOUNCE_VELOCITY, currentVel.Z)
 									end
 
 									-- Handle the stomp

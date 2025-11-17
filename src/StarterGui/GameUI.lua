@@ -3,7 +3,6 @@
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local StarterGui = game:GetService("StarterGui")
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
@@ -45,7 +44,9 @@ instructionsText.Name = "Text"
 instructionsText.Size = UDim2.new(1, -20, 0, 40)
 instructionsText.Position = UDim2.new(0, 10, 0, 35)
 instructionsText.BackgroundTransparency = 1
-instructionsText.Text = "Jump on other players' heads to score!\nFirst to " .. GameConfig.SCORE_TO_WIN .. " points wins!"
+instructionsText.Text = "Jump on other players' heads to score!\nFirst to "
+	.. GameConfig.SCORE_TO_WIN
+	.. " points wins!"
 instructionsText.TextColor3 = Color3.fromRGB(255, 255, 255)
 instructionsText.TextSize = 16
 instructionsText.Font = Enum.Font.Gotham
@@ -121,7 +122,7 @@ resetMessage.BackgroundTransparency = 1
 resetMessage.Text = "Game resets in 10 seconds..."
 resetMessage.TextColor3 = Color3.fromRGB(150, 150, 150)
 resetMessage.TextSize = 18
-resetMessage.Font = Enum.Font.GothamItalic
+resetMessage.Font = Enum.Font.Gotham
 resetMessage.TextXAlignment = Enum.TextXAlignment.Center
 resetMessage.Parent = winnerFrame
 
