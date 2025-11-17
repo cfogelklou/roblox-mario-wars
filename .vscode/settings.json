@@ -1,0 +1,20 @@
+{
+  "files.associations": {
+    "*.lua": "lua"
+  },
+  "Lua.diagnostics.globals": [
+    "game",
+    "script",
+    "workspace",
+    "plugin"
+  ],
+  "Lua.diagnostics.disable": [
+    "undefined-global",
+    "lowercase-global"
+  ],
+  "Lua.runtime.version": "Luau",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true
+  }
+}

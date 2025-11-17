@@ -1,0 +1,5 @@
+# Aftman configuration for tool management
+# Install aftman: https://github.com/LPGhatguy/aftman
+
+[tools]
+rojo = "rojo-rbx/rojo@7.4.1"

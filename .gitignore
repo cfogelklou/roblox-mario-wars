@@ -1,0 +1,12 @@
+# Roblox Studio
+*.rbxl
+*.rbxlx
+*.rbxm
+*.rbxmx
+
+# Rojo
+*.project.json.lock
+
+# OS
+.DS_Store
+Thumbs.db
