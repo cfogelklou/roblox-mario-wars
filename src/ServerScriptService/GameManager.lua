@@ -283,7 +283,6 @@ local function checkServerSideStomps()
 								and stomperFeet >= victimHeadTop
 								and stomperFeet - victimHeadTop < GameConfig.STOMP_HEAD_DISTANCE
 							then
-
 								-- Check cooldown
 								local cooldownKey = tostring(stomperChar) .. "_" .. tostring(victimChar)
 								local currentTime = tick()
