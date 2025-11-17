@@ -1,0 +1,12 @@
+# Selene linter configuration for Roblox
+std = "roblox"
+
+[rules]
+# Enable all recommended rules
+unused_variable = "warn"
+undefined_variable = "warn"
+shadowing = "warn"
+incorrect_standard_library_use = "warn"
+duplicate_keys = "deny"
+empty_if = "warn"
+if_same_then_else = "warn"

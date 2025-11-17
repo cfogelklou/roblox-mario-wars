@@ -1,0 +1,15 @@
+{
+  "languageMode": "strict",
+  "lint": {
+    "*": true,
+    "LocalUnused": true,
+    "LocalShadow": true,
+    "FunctionUnused": true,
+    "ImportUnused": true,
+    "UnknownGlobal": true
+  },
+  "lintErrors": false,
+  "typeErrors": false,
+  "globals": [],
+  "paths": ["src"]
+}

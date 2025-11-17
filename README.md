@@ -75,21 +75,66 @@ If you prefer not to use Rojo:
 
 ```
 roblox-mario-wars/
+├── .github/
+│   └── workflows/
+│       └── ci.yml                  # GitHub Actions CI/CD pipeline
 ├── src/
 │   ├── ReplicatedStorage/
 │   │   ├── GameConfig.lua          # Game settings and constants
 │   │   └── RemoteEvents.lua        # Client-server communication
 │   ├── ServerScriptService/
 │   │   ├── GameManager.lua         # Main game logic, scoring, win detection
-│   │   └── SpawnManager.lua        # Handles spawn location creation
+│   │   ├── SpawnManager.lua        # Handles spawn location creation
+│   │   ├── LevelBuilder.lua        # Map/level generation
+│   │   ├── BotManager.lua          # AI bot management
+│   │   └── BotController.lua       # AI bot behavior
 │   ├── StarterPlayer/
 │   │   └── StarterPlayerScripts/
 │   │       └── HeadStompDetector.lua  # Detects when player stomps others
 │   └── StarterGui/
 │       └── GameUI.lua              # Winner announcements and UI
+├── tests/
+│   ├── GameConfig.spec.lua         # Unit tests for game configuration
+│   └── init.spec.lua               # Test suite runner
+├── .luaurc                         # Luau type checker configuration
+├── stylua.toml                     # StyLua formatter configuration
+├── selene.toml                     # Selene linter configuration
+├── aftman.toml                     # Tool version management
 ├── default.project.json            # Rojo project configuration
+├── CI_SETUP.md                     # CI/CD documentation
 └── README.md                       # This file
 ```
+
+## Development Tools & CI/CD
+
+This project uses modern tooling for code quality and automated testing:
+
+- **StyLua**: Automatic code formatting
+- **Selene**: Lua linting with Roblox support
+- **Luau**: Static type checking
+- **TestEZ**: Unit testing framework
+- **GitHub Actions**: Automated CI pipeline
+
+### Quick Start for Contributors
+
+```bash
+# Install tool manager
+# See: https://github.com/LPGhatguy/aftman
+
+# Install all project tools
+aftman install
+
+# Format code
+stylua src tests
+
+# Check for issues
+selene src tests
+
+# Build the project
+rojo build default.project.json --output MarioWars.rbxl
+```
+
+For detailed information about the CI/CD setup, testing, and development workflow, see [CI_SETUP.md](CI_SETUP.md).
 
 ## How to Play
 
